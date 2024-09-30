@@ -8,7 +8,7 @@ export default function RestaurantPage() {
 
   return (
     <SafeAreaView style={tw`flex-1 items-center justify-center bg-white`}>
-      <Text style={tw`text-lg`}>Restaurant Page</Text>
+      <Text style={tw`text-lg`}>Restaurant Pages</Text>
       <Button
         title="Go back to Home Screen"
         onPress={() => router.back()}
