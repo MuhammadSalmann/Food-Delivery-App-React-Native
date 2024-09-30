@@ -27,7 +27,7 @@ export default function RestaurantPage() {
   return (
     <View>
       <CartIcon />
-      <StatusBar barStyle={"light-content"} backgroundColor={themeColors.bgColor(1)} />
+      <StatusBar barStyle={"light-content"}/>
       <ScrollView>
         <View style={tw`relative`}>
           <Image source={item.image}  style={tw`w-full h-72`} />
