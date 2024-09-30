@@ -31,7 +31,7 @@ export default function Cart() {
         </View>
         {/* Delivery Time */}
         <View style={[tw`flex-row px-4 items-center`, {backgroundColor: themeColors.bgColor(0.2)}]}>
-          <Image source={require('@/assets/images/extras/bikeguy.png')} style={tw`w-20 h-20 rounded-4xl bg-white`} />
+          <Image source={require('@/assets/images/extras/bikeguy.png')} style={tw`w-20 h-20 rounded-xl bg-white`} />
           <Text style={tw`flex-1 pl-4`}>Delivery in 20-30 minutes</Text>
           <TouchableOpacity>
             <Text style={[tw`font-bold`, {color: themeColors.text}]}>Change</Text>

@@ -19,6 +19,13 @@ export default function RootLayout() {
           animation: "fade",
         }}
       />
+      <Stack.Screen 
+        name="delivery" 
+        options={{
+          presentation: "fullScreenModal",
+          animation: "fade",
+        }}
+      />
     </Stack>
   );
 }

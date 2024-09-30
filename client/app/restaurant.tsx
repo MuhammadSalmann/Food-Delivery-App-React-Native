@@ -22,7 +22,7 @@ export default function RestaurantPage() {
   } catch (e) {
     console.error("Error parsing dishes:", e);
   }
-  console.log(dishes);
+  // console.log(dishes);
 
   return (
     <View>
