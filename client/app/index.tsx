@@ -1,19 +1,18 @@
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
-import { StatusBar } from "react-native";
 import * as Icon from "react-native-feather";
+import { featured } from "@/constants";
 import { themeColors } from "@/theme";
 import Categories from "@/components/Categories";
-import { featured } from "@/constants";
 import FeaturedRow from "@/components/FeaturedRow";
 
 export default function Index() {
   return (
     <SafeAreaView style={tw`bg-white`}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={"dark-content"} />
       {/* search bar */}
-      <View style={tw`flex-row items-center ml-2 px-4 pb-2`}>
+      <View style={tw`flex-row items-center ml-2 px-4 pb-2 mt-1`}>
         <View
           style={tw`flex-row items-center flex-1 p-3 rounded-full border border-gray-300`}
         >

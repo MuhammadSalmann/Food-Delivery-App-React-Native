@@ -72,7 +72,7 @@ export const featured = {
             ]
         },
         {
-            id: 1,
+            id: 2,
             name: 'KFC',
             image: require('@/assets/images/dishes/pizza.jpeg'),
             description: 'cheezy garlic pizza',
@@ -107,7 +107,7 @@ export const featured = {
             ]
         },
         {
-            id: 1,
+            id: 3,
             name: 'KFC',
             image: require('@/assets/images/dishes/pizza.jpeg'),
             description: 'cheezy garlic pizza',

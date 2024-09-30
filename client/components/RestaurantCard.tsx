@@ -8,7 +8,7 @@ export default function RestaurantCard({item} : any) {
     const router = useRouter()
   return (
     <TouchableWithoutFeedback
-        onPress={() => router.push("./restaurant", { ...item })}
+        onPress={() => router.push({ pathname: "./restaurant", params: { ...item, dishes: JSON.stringify(item.dishes), } })}
     >
         <View style={[tw`mr-6 bg-white rounded-3xl shadow-lg`, {shadowColor: themeColors.bgColor(5), shadowRadius: 7}]}>
             <Image source={item.image} style={tw`w-64 h-36 rounded-t-3xl`} />
