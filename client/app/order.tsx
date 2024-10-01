@@ -8,7 +8,7 @@ export default function order() {
     useEffect(() => {
         setTimeout(() => {
             router.push('./delivery')
-        }, 3000)
+        }, 2000)
     })
   return (
     <View style={tw`flex-1 bg-white justify-center items-center`}>

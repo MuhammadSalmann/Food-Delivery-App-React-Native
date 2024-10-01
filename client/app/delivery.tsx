@@ -1,21 +1,52 @@
-import { View, Text, Image } from 'react-native'
-import { featured } from '@/constants'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import tw from 'twrnc'
 import MapView, { Marker } from 'react-native-maps'
 import { themeColors } from '@/theme'
+import { useSelector } from "react-redux";
+import { selectRestaurant } from "@/slices/restaurantSlice";
+import * as Icon from 'react-native-feather'
+import { useDispatch } from 'react-redux'
+import { emptyCart } from '@/slices/cartSlice'
 
 export default function delivery() {
-    const restaurant = featured.restaurants[0]
+    const restaurant = useSelector(selectRestaurant)
     const router = useRouter();
+    const dispatch = useDispatch();
+    const lng = parseFloat(restaurant.lng)
+    const lat = parseFloat(restaurant.lat)
+  
+    // to avoid crashing if restaurant is not found
+  if (!restaurant) {
+    return (
+      <View style={tw`flex-1 bg-white justify-center items-center`}>
+        <Image source={require('@/assets/images/extras/delivery.gif')} style={tw`w-full h-60`} />
+      </View>
+    );
+  }
+
+  const handleBack = () => {
+    router.navigate('/')
+    dispatch(emptyCart([]))
+  }
+
   return (
     <View style={tw`flex-1`}>
+      <TouchableOpacity
+            onPress={handleBack}
+            style={[
+              tw`absolute z-10 rounded-full p-1 shadow top-10 left-4`,
+              { backgroundColor: themeColors.bgColor(1) },
+            ]}
+          >
+            <Icon.ArrowLeft stroke='white' strokeWidth={3} />
+          </TouchableOpacity>
       {/* map */}
       <MapView
         style={tw`flex-1`}
         initialRegion={{
-          latitude: restaurant.lng,
-          longitude: restaurant.lat,
+          latitude: lng,
+          longitude: lat,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
@@ -23,8 +54,8 @@ export default function delivery() {
         >
         <Marker
           coordinate={{
-            latitude: restaurant.lng,
-            longitude: restaurant.lat,
+            latitude: lng,
+            longitude: lat,
           }}
           title={restaurant.name}
           description={restaurant.address}
@@ -40,6 +71,9 @@ export default function delivery() {
                 </View>
                 <Image source={require('@/assets/images/extras/deliveryicon.gif')} style={tw`w-24 h-24`} />
             </View>
+            <TouchableOpacity style={[tw`bg-green-500 py-3 mx-5 mt-5 rounded-lg items-center`, { backgroundColor: themeColors.bgColor(1) }]}>
+                <Text style={tw`text-white font-semibold text-lg`}>Track Order</Text>
+            </TouchableOpacity>
         </View>
     </View>
   )

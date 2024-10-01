@@ -1,13 +1,33 @@
-import { featured } from "@/constants";
 import { themeColors } from "@/theme";
 import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import tw from "twrnc";
 import * as Icon from "react-native-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRestaurant } from "@/slices/restaurantSlice";
+import { addToCart, removeFromCart, selectCartItems, selectCartTotal } from "@/slices/cartSlice";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
   const router = useRouter();
-  const restaurant = featured.restaurants[0];
+  const dispatch = useDispatch();
+  const restaurant = useSelector(selectRestaurant)
+  const cartItems = useSelector(selectCartItems)
+  const cartTotal = useSelector(selectCartTotal)
+  const [groupedItems, setGroupedItems] = useState({});
+  const deliveryFee = 2
+
+  useEffect(() => {
+    const items = cartItems.reduce((group: any, item: any) => {
+      if(group[item.id]) {
+        group[item.id].push(item)
+      } else {
+        group[item.id] = [item]
+      }
+      return group
+    }, {})
+    setGroupedItems(items)
+  }, [cartItems])
 
   return (
     <View style={tw`flex-1 justify-end`}>
@@ -44,9 +64,11 @@ export default function Cart() {
           contentContainerStyle={{ paddingBottom: 50 }}
         >
           {
-            restaurant.dishes.map((dish, i) => {
+            Object.entries(groupedItems).map(([key, items]) => {
+              console.log("her", items)
+              let dish = items[0]
               return (
-                <View key={i} style={tw`flex-row justify-between items-center rounded-3xl bg-white mt-3 px-4 py-2 shadow-md`}>
+                <View key={key} style={tw`flex-row justify-between items-center rounded-3xl bg-white mt-3 px-4 py-2 shadow-md`}>
                   <View style={tw`flex-row items-center`}>
                     <Image source={dish.image} style={tw`w-16 h-16 rounded-2xl`} />
                     <View style={tw`pl-4`}>
@@ -55,11 +77,13 @@ export default function Cart() {
                     </View>
                   </View>
                   <View style={tw`flex-row items-center`}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => dispatch(removeFromCart({ id: dish.id }))}>
                       <Icon.MinusCircle stroke={themeColors.text} strokeWidth={2} />
                     </TouchableOpacity>
-                    <Text style={tw`px-2`}>1</Text>
-                    <TouchableOpacity>
+                    <Text style={tw`px-2`}>{items.length}</Text>
+                    <TouchableOpacity
+                      onPress={() => dispatch(addToCart(dish))}
+                    >
                       <Icon.PlusCircle stroke={themeColors.text} strokeWidth={2} />
                     </TouchableOpacity>
                   </View>
@@ -72,15 +96,15 @@ export default function Cart() {
         <View style={[tw`p-6 px-8 rounded-t-3xl mt-4`, {backgroundColor: themeColors.bgColor(0.2)}]}>
           <View style={tw`flex-row justify-between`}>
             <Text style={tw`text-gray-700`}>Subtotal</Text>
-            <Text style={tw`text-gray-700`}>$20</Text>
+            <Text style={tw`text-gray-700`}>${cartTotal}</Text>
           </View>
           <View style={tw`flex-row justify-between mt-2`}>
             <Text style={tw`text-gray-700`}>Delivery Fee</Text>
-            <Text style={tw`text-gray-700`}>$2</Text>
+            <Text style={tw`text-gray-700`}>${deliveryFee}</Text>
           </View>
           <View style={tw`flex-row justify-between mt-2`}>
             <Text style={tw`text-gray-700 font-extrabold`}>Total</Text>
-            <Text style={tw`text-gray-700 font-extrabold`}>$22</Text>
+            <Text style={tw`text-gray-700 font-extrabold`}>${deliveryFee+cartTotal}</Text>
           </View>
           <View>
             <TouchableOpacity

@@ -5,11 +5,14 @@ import * as Icon from "react-native-feather";
 import { themeColors } from "@/theme";
 import DishRow from "@/components/DishRow";
 import CartIcon from "@/components/CartIcon";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setRestaurant } from "@/slices/restaurantSlice";
 
 export default function RestaurantPage() {
   const router = useRouter();
   const item = useLocalSearchParams();
-  // console.log(item);
+  const dispatch = useDispatch();
 
   // Safely parse the `dishes` array if it's passed as a string
   let dishes = [];
@@ -22,7 +25,12 @@ export default function RestaurantPage() {
   } catch (e) {
     console.error("Error parsing dishes:", e);
   }
-  // console.log(dishes);
+  item.dishes = dishes;
+  // console.log(item);
+
+  useEffect(() => {
+    dispatch(setRestaurant(item));
+  }, []);
 
   return (
     <View>
@@ -58,7 +66,7 @@ export default function RestaurantPage() {
           <Text style={tw`px-4 py-4 text-2xl font-bold`}>Menu</Text>
           {/* Dishes */}
           {
-            dishes.map((dish: any, index: number) => <DishRow item={{...dish}} key={index} /> )
+            Array.isArray(item.dishes) && item.dishes.map((dish: any, index: number) => <DishRow item={{...dish}} key={index} /> )
           }
         </View>
       </ScrollView>
